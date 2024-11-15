@@ -1,47 +1,56 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PokeCard from "./components/PokeCard";
+import { useDebounce } from "./hooks/useDebounce";
 
 function App() {
   const [pokemons, setPokemons] = useState([]);
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(20);
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   useEffect(() => {
     fetchPokeData(true);
   }, []);
 
+  useEffect(() => {
+    handleSearchInput(debouncedSearchTerm)
+  }, [debouncedSearchTerm])
+  
+
   const fetchPokeData = async (isFirstFetch) => {
     try {
-      const offsetValue = isFirstFetch ? 0 : offset + limit
+      const offsetValue = isFirstFetch ? 0 : offset + limit;
       const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offsetValue}`;
       const res = await axios.get(url);
       setPokemons([...pokemons, ...res.data.results]);
-      setOffset(offsetValue)
+      setOffset(offsetValue);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleSearchInput = async e => {
-    setSearchTerm(e.target.value)
-    if(e.target.value.length > 0) {
+  const handleSearchInput = async (debouncedSearchTerm) => {
+    if (searchTerm.length > 0) {
       try {
-        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${e.target.value}`)
+        const res = await axios.get( 
+          `https://pokeapi.co/api/v2/pokemon/${debouncedSearchTerm}`
+        );
         const pokemonData = {
-          url:`https://pokeapi.co/api/v2/pokemon/${res.data.id}`,
-          name: searchTerm
-        }
-        setPokemons([pokemonData])
+          url: `https://pokeapi.co/api/v2/pokemon/${res.data.id}`,
+          name: debouncedSearchTerm,
+        };
+        setPokemons([pokemonData]);
       } catch (error) {
-        setPokemons([])
-        console.error(error)
+        setPokemons([]);
+        console.error(error);
       }
     } else {
-      fetchPokeData(true)
+      fetchPokeData(true);
     }
-  }
+  };
 
   return (
     <>
@@ -49,8 +58,18 @@ function App() {
         <header className="flex flex-col gap-2 w-full px-4 z-50">
           <div className="relative z-50">
             <form className="relative flex justify-center items-center w-[20.5rem] h-6 rounded-lg m-auto">
-              <input type="text" value={searchTerm} onChange={handleSearchInput} className="text-xs w-[20.5rem] h-6 px-2 py-1 rounded-lg text-gray-300 text-center bg-[hsl(214,13%,47%)]" />
-              <button type="submit" className="text-xs bg-slate-900 text-slate-300 w-[2.5rem] h-6 px-2 py-1 rounded-r-lg text-center absolute right-0 hover:bg-slate-700">검색</button>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="text-xs w-[20.5rem] h-6 px-2 py-1 rounded-lg text-gray-300 text-center bg-[hsl(214,13%,47%)]"
+              />
+              <button
+                type="submit"
+                className="text-xs bg-slate-900 text-slate-300 w-[2.5rem] h-6 px-2 py-1 rounded-r-lg text-center absolute right-0 hover:bg-slate-700"
+              >
+                검색
+              </button>
             </form>
           </div>
         </header>
