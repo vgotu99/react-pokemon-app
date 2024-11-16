@@ -16,7 +16,6 @@ const DetailPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const params = useParams();
   const [pokemonId, setPokemonId] = useState(params.id)
-  // const pokemonId = params.id;
   const baseUrl = `https://pokeapi.co/api/v2/pokemon/`;
 
   useEffect(() => {
@@ -122,11 +121,11 @@ const DetailPage = () => {
   return (
     <article className="flex items-center gap-1 flex-col w-full">
       <div
-        className={`${bg} w-auto h-full flex flex-col z-0 items-center justify-end relative overflow-hidden`}
+        className={`${bg} w-full h-full flex flex-col z-0 items-center justify-end relative overflow-hidden`}
       >
         {pokemon.prev && (
           <Link
-            className="absolute top-[40%] -translate-y-1/2 z-50 left-1"
+            className="absolute top-[40%] -translate-y-1/2 z-50 left-4"
             to={`/pokemon/${pokemon.prev.name}`}
             onClick={() => setPokemonId(pokemon.prev.name)}
           >
@@ -135,7 +134,7 @@ const DetailPage = () => {
         )}
         {pokemon.next && (
           <Link
-            className="absolute top-[40%] -translate-y-1/2 z-50 right-1"
+            className="absolute top-[40%] -translate-y-1/2 z-50 right-4"
             to={`/pokemon/${pokemon.next.name}`}
             onClick={() => setPokemonId(pokemon.next.name)}
 
@@ -144,7 +143,7 @@ const DetailPage = () => {
           </Link>
         )}
         <section className="w-full flex flex-col z-20 items-center justify-end relative h-full">
-          <div className="absolute z-30 top-6 flex items-center w-full justify-between px-2">
+          <div className="absolute z-30 top-6 flex items-center w-full justify-between px-4">
             <div className="flex items-center gap-1">
               <Link to="/">
                 <ArrowLeft className="w-6 h-8 text-zinc-200" />
@@ -157,7 +156,7 @@ const DetailPage = () => {
               #{pokemon.id.toString().padStart(3, "0")}
             </div>
           </div>
-          <div className="relative h-auto max-w-[15.5rem] z-20 mt-6 -mb-16">
+          <div className="relative h-auto max-w-[15.5rem] z-20 mt-12 -mb-16">
             <img
               src={img}
               width={"100%"}
@@ -169,13 +168,13 @@ const DetailPage = () => {
           </div>
         </section>
         <section className="w-full min-h-[65%] h-full bg-gray-800 z-10 pt-14 flex flex-col items-center gap-3 px-5 pb-4">
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-4 mt-4 mb-2">
             {pokemon.types.map((type) => (
               <Type key={type} type={type} />
             ))}
           </div>
           <h2 className={`text-base font-semibold ${text}`}>정보</h2>
-          <div className="flex w-full items-center justify-between max-w-[400px] text-center">
+          <div className="flex w-full items-center justify-between max-w-[400px] text-center mb-4">
             <div className="w-full ">
               <h4 className="text-[.5rem] text-zinc-200">weight</h4>
               <div className="text-sm flex mt-1 gap-2 justify-center text-zinc-200">
@@ -203,7 +202,7 @@ const DetailPage = () => {
             </div>
           </div>
           <h2 className={`text-base font-semibold ${text}`}>기본 능력치</h2>
-          <div className="w-full">
+          <div className="w-full flex justify-center mb-4">
             <table>
               <tbody>
                 {pokemon.stats.map((stat) => (
@@ -220,7 +219,6 @@ const DetailPage = () => {
           {pokemon.damageRelations && (
             <div className="w-10/12">
               <h2 className={`text-base text-center font-semibold ${text}`}>
-                데미지 관계
               </h2>
               damages
             </div>
