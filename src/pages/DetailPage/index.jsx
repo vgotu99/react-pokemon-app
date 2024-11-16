@@ -10,6 +10,7 @@ import { Balance } from "../../assets/Balance";
 import { Vector } from "../../assets/Vector";
 import Type from "../../components/Type";
 import BaseStat from "../../components/BaseStat";
+import LazyImage from "../../components/LazyImage";
 
 const DetailPage = () => {
   const [pokemon, setPokemon] = useState();
@@ -157,14 +158,7 @@ const DetailPage = () => {
             </div>
           </div>
           <div className="relative h-auto max-w-[15.5rem] z-20 mt-12 -mb-16">
-            <img
-              src={img}
-              width={"100%"}
-              height={"auto"}
-              loading="lazy"
-              className="object-contain h-full"
-              alt={pokemon.name}
-            />
+            <LazyImage img={img} name={pokemon.name} />
           </div>
         </section>
         <section className="w-full min-h-[65%] h-full bg-gray-800 z-10 pt-14 flex flex-col items-center gap-3 px-5 pb-4">
