@@ -49,7 +49,6 @@ export const PokeCard = ({ url, name }) => {
           </div>
           <div className={`w-full flex items-center justify-center`}>
             <div className={`box-border relative flex w-full h-[5.5rem] basis-auto justify-center items-center`} >
-              {/* <img src={img} alt={name} width='100%' className={`object-contain h-full`} /> */}
               <LazyImage img={img} name={name} />
             </div>
           </div>
