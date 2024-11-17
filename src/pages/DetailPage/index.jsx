@@ -33,7 +33,7 @@ const DetailPage = () => {
       // {data} = res.data / data: pokemonData = data를 pokemonData 라는 이름으로 변경함
 
       if (pokemonData) {
-        const { name, id, types, weight, height, stats, abilities } =
+        const { name, id, types, weight, height, stats, abilities, sprites } =
           pokemonData;
         const nextAndPrevPokemon = await getNextAndPrevPokemon(id);
 
@@ -55,6 +55,7 @@ const DetailPage = () => {
           stats: formatPokemonStats(stats),
           types: types.map((type) => type.type.name),
           damageRelations: damageRelations,
+          sprites: fotmatPokemonSprites(sprites)
         };
 
         setPokemon(formattedPokemonData);
@@ -87,6 +88,18 @@ const DetailPage = () => {
     { name: "Special Defense", baseStat: statSDEF.base_stat },
     { name: "Speed", baseStat: statSPD.base_stat },
   ];
+
+  const fotmatPokemonSprites = (sprites) => {
+    const newSprites = {...sprites}
+
+    Object.keys(newSprites).forEach(key => {
+      if(typeof newSprites[key] !== 'string') {
+        delete newSprites[key]
+      }
+    })
+
+    return Object.values(newSprites)
+  }
 
   const getNextAndPrevPokemon = async (id) => {
     const urlPokemon = `${baseUrl}?limit=1&offset=${id - 1}`;
@@ -210,6 +223,11 @@ const DetailPage = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="flex my-8 flex-wrap justify-center">
+          {pokemon.sprites.map((url, index) => (
+            <LazyImage key={index} img={url} name={`${pokemon.name}-sprite`} />
+          ))}
           </div>
         </section>
       </div>
