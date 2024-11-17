@@ -109,7 +109,7 @@ const DamageRelations = ({ damages }) => {
   };
 
   return (
-    <div className="flex gap-2 flex-col">
+    <div className="flex gap-2 flex-col w-full">
       {pokemonDamageForm ? (
         <>
           {Object.entries(pokemonDamageForm).map(([key, value]) => {
