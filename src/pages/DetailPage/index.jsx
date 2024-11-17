@@ -19,7 +19,7 @@ const DetailPage = () => {
   const params = useParams();
   const [pokemonId, setPokemonId] = useState(params.id);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const baseUrl = `https://pokeapi.co/api/v2/pokemon/`;
+  const baseUrl = `https://pokeapi.co/api/v2/pokemon`;
 
   useEffect(() => {
     fetchPokemonData();
@@ -27,7 +27,7 @@ const DetailPage = () => {
   }, [pokemonId]);
 
   const fetchPokemonData = async () => {
-    const url = baseUrl + pokemonId;
+    const url = `${baseUrl}/${pokemonId}`
     try {
       const { data: pokemonData } = await axios.get(url);
       // {data} = res.data / data: pokemonData = data를 pokemonData 라는 이름으로 변경함
@@ -55,7 +55,8 @@ const DetailPage = () => {
           stats: formatPokemonStats(stats),
           types: types.map((type) => type.type.name),
           damageRelations: damageRelations,
-          sprites: fotmatPokemonSprites(sprites)
+          sprites: fotmatPokemonSprites(sprites),
+          desc: await getPokemonDesc(id)
         };
 
         setPokemon(formattedPokemonData);
@@ -99,6 +100,22 @@ const DetailPage = () => {
     })
 
     return Object.values(newSprites)
+  }
+
+  const getPokemonDesc = async id => {
+    const url = `${baseUrl}-species/${id}`
+    const {data: pokemonSpecies} = await axios.get(url)
+    console.log(pokemonSpecies)
+
+    const descriptions = filterAndFormatDesc(pokemonSpecies.flavor_text_entries)
+
+    return descriptions[Math.floor(Math.random() * descriptions.length)]
+  }
+
+  const filterAndFormatDesc = (flavorTextEntries) => {
+    const koreanDesc = flavorTextEntries.filter(f => f.language.name === 'ko').map(f => f.flavor_text.replace(/\r|\n|\f/g, ' '))
+    
+    return koreanDesc
   }
 
   const getNextAndPrevPokemon = async (id) => {
@@ -224,6 +241,10 @@ const DetailPage = () => {
               </tbody>
             </table>
           </div>
+          <h2 className={`text-base font-semibold ${text}`}>설명</h2>
+          <p className="text-md leading-4 font-sans text-zinc-200 max-w-[30rem] text-center">
+            {pokemon.desc}
+          </p>
           <div className="flex my-8 justify-center">
           {pokemon.sprites.map((url, index) => (
             <LazyImage key={index} img={url} name={`${pokemon.name}-sprite`} />
