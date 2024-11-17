@@ -10,10 +10,10 @@ export const useOnclickOutsideOfModal = (ref, handler) => {
       handler()
     }
 
-    document.addEventListener('click', listener)
+    document.addEventListener('mousedown', listener)
     
     return () => {
-      document.addEventListener('click', listener)
+      document.addEventListener('mousedown', listener)
     }
   }, [ref, handler])
   

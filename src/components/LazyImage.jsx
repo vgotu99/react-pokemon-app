@@ -18,14 +18,14 @@ export const LazyImage = ({ img, name, setIsModalOpen }) => {
         </div>
       )}
       <img
-        onClick={() => setIsModalOpen(true)}
+        onClick={setIsModalOpen ? () => setIsModalOpen(true): undefined}
         src={img}
         alt={name}
         width="100%"
         height="auto"
         loading="lazy"
         onLoad={() => setIsLoading(false)}
-        className={`object-contain h-full ${opacity} cursor-pointer`}
+        className={`object-contain h-full ${opacity} ${setIsModalOpen ? 'cursor-pointer' : ''}`}
       />
     </>
   );
