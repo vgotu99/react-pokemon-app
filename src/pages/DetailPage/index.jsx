@@ -11,6 +11,7 @@ import { Vector } from "../../assets/Vector";
 import Type from "../../components/Type";
 import BaseStat from "../../components/BaseStat";
 import LazyImage from "../../components/LazyImage";
+import DamageRelations from "../../components/DamageRelations";
 
 const DetailPage = () => {
   const [pokemon, setPokemon] = useState();
@@ -213,6 +214,7 @@ const DetailPage = () => {
           {pokemon.damageRelations && (
             <div className="w-10/12">
               <h2 className={`text-base text-center font-semibold ${text}`}>
+                <DamageRelations damages={pokemon.damageRelations} />
               </h2>
               damages
             </div>
