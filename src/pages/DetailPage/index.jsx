@@ -224,7 +224,7 @@ const DetailPage = () => {
               </tbody>
             </table>
           </div>
-          <div className="flex my-8 flex-wrap justify-center">
+          <div className="flex my-8 justify-center">
           {pokemon.sprites.map((url, index) => (
             <LazyImage key={index} img={url} name={`${pokemon.name}-sprite`} />
           ))}
