@@ -201,21 +201,21 @@ const DetailPage = () => {
           <h2 className={`text-base font-semibold ${text}`}>정보</h2>
           <div className="flex w-full items-center justify-between max-w-[400px] text-center mb-4">
             <div className="w-full ">
-              <h4 className="text-[.5rem] text-zinc-200">weight</h4>
+              <h4 className="text-[.7rem] text-zinc-200">Weight</h4>
               <div className="text-sm flex mt-1 gap-2 justify-center text-zinc-200">
                 <Balance />
                 {pokemon.weight}kg
               </div>
             </div>
             <div className="w-full ">
-              <h4 className="text-[.5rem] text-zinc-200">weight</h4>
+              <h4 className="text-[.7rem] text-zinc-200">Height</h4>
               <div className="text-sm flex mt-1 gap-2 justify-center text-zinc-200">
                 <Vector />
                 {pokemon.height}m
               </div>
             </div>
             <div className="w-full text-zinc-200 ">
-              <h4 className="text-[.5rem] text-zinc-200">weight</h4>
+              <h4 className="text-[.7rem] text-zinc-200">Ability</h4>
               {pokemon.abilities.map((ability) => (
                 <div
                   key={ability}
