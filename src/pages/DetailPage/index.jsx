@@ -11,18 +11,19 @@ import { Vector } from "../../assets/Vector";
 import Type from "../../components/Type";
 import BaseStat from "../../components/BaseStat";
 import LazyImage from "../../components/LazyImage";
-import DamageRelations from "../../components/DamageRelations";
+import DamageModal from "../../components/DamageModal";
 
 const DetailPage = () => {
   const [pokemon, setPokemon] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const params = useParams();
-  const [pokemonId, setPokemonId] = useState(params.id)
+  const [pokemonId, setPokemonId] = useState(params.id);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const baseUrl = `https://pokeapi.co/api/v2/pokemon/`;
 
   useEffect(() => {
     fetchPokemonData();
-    setIsLoading(true)
+    setIsLoading(true);
   }, [pokemonId]);
 
   const fetchPokemonData = async () => {
@@ -139,7 +140,6 @@ const DetailPage = () => {
             className="absolute top-[40%] -translate-y-1/2 z-50 right-4"
             to={`/pokemon/${pokemon.next.name}`}
             onClick={() => setPokemonId(pokemon.next.name)}
-
           >
             <GreaterThan className="w-5 h-8 p-1" />
           </Link>
@@ -159,7 +159,7 @@ const DetailPage = () => {
             </div>
           </div>
           <div className="relative h-auto max-w-[15.5rem] z-20 mt-12 -mb-16">
-            <LazyImage img={img} name={pokemon.name} />
+            <LazyImage setIsModalOpen={setIsModalOpen} img={img} name={pokemon.name} />
           </div>
         </section>
         <section className="w-full min-h-[65%] h-full bg-gray-800 z-10 pt-14 flex flex-col items-center gap-3 px-5 pb-4">
@@ -211,16 +211,14 @@ const DetailPage = () => {
               </tbody>
             </table>
           </div>
-          {pokemon.damageRelations && (
-            <div className="w-10/12">
-              <h2 className={`text-base text-center font-semibold ${text}`}>
-                <DamageRelations damages={pokemon.damageRelations} />
-              </h2>
-              damages
-            </div>
-          )}
         </section>
       </div>
+        {isModalOpen && (
+          <DamageModal
+            setIsModalOpen={setIsModalOpen}
+            damages={pokemon.damageRelations}
+          />
+        )}
     </article>
   );
 };

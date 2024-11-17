@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Loading } from "../assets/Loading";
 
-export const LazyImage = ({ img, name }) => {
+export const LazyImage = ({ img, name, setIsModalOpen }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [opacity, setOpacity] = useState(0);
 
@@ -18,13 +18,14 @@ export const LazyImage = ({ img, name }) => {
         </div>
       )}
       <img
+        onClick={() => setIsModalOpen(true)}
         src={img}
         alt={name}
         width="100%"
         height="auto"
         loading="lazy"
         onLoad={() => setIsLoading(false)}
-        className={`object-contain h-full ${opacity}`}
+        className={`object-contain h-full ${opacity} cursor-pointer`}
       />
     </>
   );
