@@ -1,8 +1,7 @@
-import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import app from "../../firebaseConfig";
+import app from "../../firebaseConfig.ts";
 import {
   getAuth,
   signInWithPopup,
@@ -11,11 +10,19 @@ import {
   signOut,
   setPersistence,
   browserSessionPersistence,
+  User,
+  UserCredential,
+  Config
 } from "firebase/auth";
+
+interface ExtendedUserData extends User {
+  apiKey: string
+  photoURL: string
+}
 
 const NavBar = () => {
   const [show, setShow] = useState(false);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState<User | {}>({});
   const { pathname } = useLocation();
   const nav = useNavigate();
   const auth = getAuth(app);
@@ -64,7 +71,7 @@ const NavBar = () => {
   const handleAuth = async () => {
     try {
       const userData = await signInWithPopup(auth, provider);
-      const { apiKey, ...apiKeyRemovedUserData } = userData.user;
+      const { apiKey, ...apiKeyRemovedUserData } = userData.user as ExtendedUserData
       setUserData(apiKeyRemovedUserData);
       sessionStorage.setItem("userInfo", JSON.stringify(apiKeyRemovedUserData));
     } catch (error) {
@@ -116,7 +123,7 @@ const NavBar = () => {
           <div className="relative h-12 w-12 flex cursor-pointer items-center justify-center group">
             <img
               className="rounded-[50%] w-full h-full"
-              src={userData?.photoURL}
+              src={(userData as ExtendedUserData)?.photoURL}
               alt="user_profile_image"
             />
             <div

@@ -1,17 +1,25 @@
-import React from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 
-const BaseStat = ({ statName, statValue, type }) => {
+interface BaseStatProps {
+  statName: string;
+  statValue: number;
+  type: string;
+}
+
+const BaseStat = ({ statName, statValue, type }: BaseStatProps) => {
   const bg = `bg-${type}`;
-  const ref = useRef(null)
-  
+  const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const statValueRef = ref.current
-    const setStatValue = statValue * (100 / 255)
-    statValueRef.style.width = setStatValue + '%'
-  }, [])
-  
+    const statValueRef = ref.current;
+    const setStatValue = statValue * (100 / 255);
+
+    // type guard
+    if (statValueRef) {
+      statValueRef.style.width = setStatValue + "%";
+    }
+  }, []);
 
   return (
     <tr className="w-full text-zinc-200">

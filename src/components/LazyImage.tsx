@@ -1,10 +1,15 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Loading } from "../assets/Loading";
 
-export const LazyImage = ({ img, name, setIsModalOpen }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [opacity, setOpacity] = useState(0);
+interface LazyImageProps {
+  img: string;
+  name: string
+  setIsModalOpen?: React.Dispatch<React.SetStateAction<boolean>>
+}
+ 
+export const LazyImage = ({ img, name, setIsModalOpen }: LazyImageProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [opacity, setOpacity] = useState<string>('opacity-0');
 
   useEffect(() => {
     isLoading ? setOpacity("opacity-0") : setOpacity("opacity-100");
@@ -25,7 +30,7 @@ export const LazyImage = ({ img, name, setIsModalOpen }) => {
         height="auto"
         loading="lazy"
         onLoad={() => setIsLoading(false)}
-        className={`object-contain h-full ${opacity} ${setIsModalOpen ? 'cursor-pointer' : ''}`}
+        className={`object-contain h-full ${opacity} ${setIsModalOpen as unknown as boolean ? 'cursor-pointer' : ''}`}
       />
     </>
   );

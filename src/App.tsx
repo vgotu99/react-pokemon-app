@@ -1,9 +1,8 @@
-import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import MainPage from "./pages/MainPage";
 import DetailPage from "./pages/DetailPage";
 import Login from "./pages/LoginPage";
 import NavBar from "./components/NavBar";
+import MainPage from "./pages/MainPage";
 
 const Layout = () => {
   return (
