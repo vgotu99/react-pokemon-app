@@ -11,8 +11,6 @@ import {
   signOut,
   setPersistence,
   browserSessionPersistence,
-  inMemoryPersistence,
-  signInWithRedirect,
 } from "firebase/auth";
 
 const NavBar = () => {
@@ -42,17 +40,17 @@ const NavBar = () => {
 
     const windowClosedAutoLogout = async () => {
       try {
-        await setPersistence(auth, browserSessionPersistence)
+        await setPersistence(auth, browserSessionPersistence);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-    }
+    };
 
-    window.addEventListener('beforeunload', windowClosedAutoLogout)
+    window.addEventListener("beforeunload", windowClosedAutoLogout);
 
     return () => {
       unsubscribe();
-      window.removeEventListener('beforeload', windowClosedAutoLogout)
+      window.removeEventListener("beforeload", windowClosedAutoLogout);
     };
   }, [pathname]);
 
@@ -63,42 +61,12 @@ const NavBar = () => {
     }
   }, [userData]);
 
-  // useEffect(() => {
-  //     
-
-  //     // return signInWithRedirect(auth, provider)
-  // }, [])
-  
-
-  // useEffect(() => {
-  //   const tabId = Math.random().toString(36).substring(7);
-  //   sessionStorage.setItem("tabId", tabId);
-
-  //   const handleTabClose = async (e) => {
-  //     const curTabId = sessionStorage.getItem("tabId");
-
-  //     if (curTabId === tabId) {
-  //       try {
-  //         await signOut(auth);
-  //         sessionStorage.clear();
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     }
-  //   };
-
-  //   window.addEventListener("beforeunload", handleTabClose);
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleTabClose);
-  //   };
-  // }, [auth]);
-
   const handleAuth = async () => {
     try {
       const userData = await signInWithPopup(auth, provider);
-      setUserData(userData.user);
-      sessionStorage.setItem("userInfo", JSON.stringify(userData.user));
+      const { apiKey, ...apiKeyRemovedUserData } = userData.user;
+      setUserData(apiKeyRemovedUserData);
+      sessionStorage.setItem("userInfo", JSON.stringify(apiKeyRemovedUserData));
     } catch (error) {
       console.error(error);
     }
@@ -110,7 +78,7 @@ const NavBar = () => {
       setUserData({});
       sessionStorage.removeItem("userInfo");
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
@@ -121,8 +89,6 @@ const NavBar = () => {
       setShow(false);
     }
   };
-
-  console.log(userData);
 
   return (
     <div className="mb-16">

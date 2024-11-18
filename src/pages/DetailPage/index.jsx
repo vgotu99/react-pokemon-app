@@ -105,7 +105,6 @@ const DetailPage = () => {
   const getPokemonDesc = async id => {
     const url = `${baseUrl}-species/${id}`
     const {data: pokemonSpecies} = await axios.get(url)
-    console.log(pokemonSpecies)
 
     const descriptions = filterAndFormatDesc(pokemonSpecies.flavor_text_entries)
 
@@ -148,8 +147,6 @@ const DetailPage = () => {
   const img = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon?.id}.png`;
   const bg = `bg-${pokemon?.types?.[0]}`;
   const text = `text-${pokemon?.types?.[0]}`;
-
-  console.log(pokemon);
 
   return (
     <article className="flex items-center gap-1 flex-col w-full">
