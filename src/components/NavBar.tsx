@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import app from "../../firebaseConfig.ts";
+import app from "../../firebaseConfig.js";
 import {
   getAuth,
   signInWithPopup,
@@ -10,9 +10,7 @@ import {
   signOut,
   setPersistence,
   browserSessionPersistence,
-  User,
-  UserCredential,
-  Config
+  User
 } from "firebase/auth";
 
 interface ExtendedUserData extends User {
